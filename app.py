@@ -1,4 +1,5 @@
 from flask import Flask, request
+from typing import List
 import json
 import requests
 
@@ -10,6 +11,56 @@ LINE_API_KEY = 'Bearer e0yXiZe3IMlmFrOyj6WeULHPK0BwuVpaah2Yep+' \
 
 app = Flask(__name__)
 
+#
+
+bool_flag = {'debug': True}
+
+#
+
+
+def print_help(args, reply_stack):
+    reply_stack.append('TODO: print help')
+
+
+def toggle_debug(args, reply_stack):
+    if bool_flag['debug']:
+        reply_stack.append('เปิดโหมดบ่นมาก')
+        bool_flag['debug'] = False
+    else:
+        reply_stack.append('เิดโหมดบ่นมาก')
+        bool_flag['debug'] = True
+
+
+main_command_redirection = {'debug': toggle_debug, '': print_help}
+
+
+def process_text(event, reply_stack):
+
+    # strip whitespace and make it lowercase
+    text: str = event['message']['text']
+    text = text.strip().lower()
+
+    args_and_prefix = text.split(' ')
+
+    # check for prefix
+    if args_and_prefix[0] in ["nlb", "nullib", "nulib"]:
+
+        # check for empty command
+        if len(args_and_prefix) <= 1:
+            command = main_command_redirection.get('')
+        else:
+            command = main_command_redirection.get(args_and_prefix[1])
+
+        command(args_and_prefix[1:], reply_stack)  # execute command
+
+
+def execute_command(args, reply_stack):
+
+    if not args:
+        reply_stack.append("TODO: print help")
+        return
+
+#
 
 @app.route('/')
 def index():
@@ -20,21 +71,26 @@ def index():
 def bot():
 
     # ข้อความที่ต้องการส่งกลับ
-    replyStack = list()
+    replyStack : List[str] = list()
    
     # ข้อความที่ได้รับมา
     msg_in_json = request.get_json()
     msg_in_string = json.dumps(msg_in_json)
-    
-    # Token สำหรับตอบกลับ (จำเป็นต้องใช้ในการตอบกลับ)
-    replyToken = msg_in_json["events"][0]['replyToken']
-    userID = msg_in_json["events"][0]['source']['userId']
-    msgType = msg_in_json["events"][0]['message']['type']
 
+    # event ; json list
+    for event in msg_in_json["events"]:
 
-    # ทดลอง Echo ข้อความกลับไปในรูปแบบที่ส่งไป-มา (แบบ json)
-    replyStack.append(msg_in_string)
-    reply(replyToken, replyStack[:5])
+        # Token สำหรับตอบกลับ (จำเป็นต้องใช้ในการตอบกลับ)
+        replyToken = event['replyToken']
+        userID = event['source']['userId']
+        msgType = event['message']['type']
+
+        # ทดลอง Echo ข้อความกลับไปในรูปแบบที่ส่งไป-มา (แบบ json)
+        if msgType == "text":
+            process_text(event, replyStack)
+
+        if debug:
+            reply(replyToken, replyStack[:5])
     
     return 'OK', 200
 
