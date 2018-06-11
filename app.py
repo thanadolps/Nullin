@@ -96,8 +96,10 @@ def bot():
         if msgType == "text":
             process_text(event, replyStack)
 
-        if bool_flag['debug']:
-            reply(replyToken, replyStack[:5])
+    if bool_flag['debug']:
+        replyToken.append(msg_in_string)
+
+    reply(replyToken, replyStack[:5])
     
     return 'OK', 200
 
