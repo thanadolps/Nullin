@@ -31,10 +31,10 @@ def print_help(args, reply_stack):
 
 def toggle_debug(args, reply_stack):
     if bool_flag['debug']:
-        reply_stack.append('เปิดโหมดบ่นมาก')
+        reply_stack.append('ปิดโหมดบ่นมาก')
         bool_flag['debug'] = False
     else:
-        reply_stack.append('เิดโหมดบ่นมาก')
+        reply_stack.append('เปิดโหมดบ่นมาก')
         bool_flag['debug'] = True
 
 
