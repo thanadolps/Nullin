@@ -5,9 +5,16 @@ import requests
 
 # ตรง YOURSECRETKEY ต้องนำมาใส่เองครับจะกล่าวถึงในขั้นตอนต่อๆ ไป
 global LINE_API_KEY
-LINE_API_KEY = 'Bearer e0yXiZe3IMlmFrOyj6WeULHPK0BwuVpaah2Yep+' \
-               'V00JhrU0Ub5HOh3eMt26lbEFjEv5dsqHzcYJ3oLhmNgmt0c' \
-               '30rD/aVFOLkVlFPbrdROB/7DfXbA40n8vlUYvwRvXNYH9dBGSPTBRi7OiQT3ZqDwdB04t89/1O/w1cDnyilFU='
+
+# True = release, False = debug
+if False:
+    LINE_API_KEY = 'Bearer e0yXiZe3IMlmFrOyj6WeULHPK0BwuVpaah2Yep+' \
+                   'V00JhrU0Ub5HOh3eMt26lbEFjEv5dsqHzcYJ3oLhmNgmt0c' \
+                   '30rD/aVFOLkVlFPbrdROB/7DfXbA40n8vlUYvwRvXNYH9dBGSPTBRi7OiQT3ZqDwdB04t89/1O/w1cDnyilFU='
+else:
+    LINE_API_KEY = 'Bearer NYaSpsiHBFxcAXuoKcq5188Si1ZveFJGjGYur7EKkOAXFOresHY1Qk6xHjJZFzWLCbRE40+3xpj1vrRALewASNv' \
+                   'XWDsa+HvBzLvLqbV1YHsZrrm6Qqh1hkj12aJtcHTV7/umxC9H7OzBfDRDtPgQjgdB04t89/1O/w1cDnyilFU='
+
 
 app = Flask(__name__)
 
